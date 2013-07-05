@@ -26,6 +26,11 @@ class TimeScaleDraw: public QwtScaleDraw
         QTime baseTime;
 };
 
+
+
+/*!
+  QwtPlotItem--Qwtplot基本元素
+  */
 class Background: public QwtPlotItem {
     public:
         Background() {
@@ -52,6 +57,9 @@ class Background: public QwtPlotItem {
         }
 };
 
+/*!
+  QwtPlotCurve是曲线的描述类
+  */
 class CpuCurve: public QwtPlotCurve {
     public:
         CpuCurve( const QString &title ):
@@ -85,11 +93,12 @@ CpuPlot::CpuPlot( QWidget *parent ):
         legend->setDefaultItemMode( QwtLegendData::Checkable );
         insertLegend( legend, QwtPlot::RightLegend );
 
-        setAxisTitle( QwtPlot::xBottom, " System Uptime [h:m:s]" );
+        setAxisTitle( QwtPlot::xBottom, "System Uptime [h:m:s]" );
         setAxisScaleDraw( QwtPlot::xBottom,
                 new TimeScaleDraw( cpuStat.upTime() ) );
         setAxisScale( QwtPlot::xBottom, 0, HISTORY );
-        setAxisLabelRotation( QwtPlot::xBottom, -50.0 );
+        //setAxisLabelRotation( QwtPlot::xBottom, -50.0 );
+        setAxisLabelRotation( QwtPlot::xBottom, 0.0 );
         setAxisLabelAlignment( QwtPlot::xBottom, Qt::AlignLeft | Qt::AlignBottom );
 
         /*
@@ -108,6 +117,8 @@ CpuPlot::CpuPlot( QWidget *parent ):
         setAxisTitle( QwtPlot::yLeft, "Cpu Usage [%]" );
         setAxisScale( QwtPlot::yLeft, 0, 100 );
 
+
+        //attach方法将元素关联到qwtplot空间上
         Background *bg = new Background();
         bg->attach( this );
 
@@ -116,9 +127,11 @@ CpuPlot::CpuPlot( QWidget *parent ):
 
         CpuCurve *curve;
 
+
         curve = new CpuCurve( "System" );
         curve->setColor( Qt::red );
         curve->attach( this );
+
         data[System].curve = curve;
 
         curve = new CpuCurve( "User" );
@@ -194,7 +207,7 @@ void CpuPlot::showCurve( QwtPlotItem *item, bool on ) {
 
     QwtLegend *lgd = qobject_cast<QwtLegend *>( legend() );
 
-    QList<QWidget *> legendWidgets = 
+    QList<QWidget *> legendWidgets =
         lgd->legendWidgets( itemToInfo( item ) );
 
     if ( legendWidgets.size() == 1 ) {
@@ -211,30 +224,30 @@ void CpuPlot::showCurve( QwtPlotItem *item, bool on ) {
 
 
 /*
-int main( int argc, char **argv ) {
+   int main( int argc, char **argv ) {
 
-    QApplication a( argc, argv );
+   QApplication a( argc, argv );
 
-    QWidget vBox;
-    vBox.setWindowTitle( "Cpu Plot" );
+   QWidget vBox;
+   vBox.setWindowTitle( "Cpu Plot" );
 
-    CpuPlot *plot = new CpuPlot( &vBox );
-    plot->setTitle( "History" );
+   CpuPlot *plot = new CpuPlot( &vBox );
+   plot->setTitle( "History" );
 
-    const int margin = 5;
-    plot->setContentsMargins( margin, margin, margin, margin );
+   const int margin = 5;
+   plot->setContentsMargins( margin, margin, margin, margin );
 
-    QString info( "Press the legend to en/disable a curve" );
+   QString info( "Press the legend to en/disable a curve" );
 
-    QLabel *label = new QLabel( info, &vBox );
+   QLabel *label = new QLabel( info, &vBox );
 
-    QVBoxLayout *layout = new QVBoxLayout( &vBox );
-    layout->addWidget( plot );
-    layout->addWidget( label );
+   QVBoxLayout *layout = new QVBoxLayout( &vBox );
+   layout->addWidget( plot );
+   layout->addWidget( label );
 
-    vBox.resize( 600, 400 );
-    vBox.show();
+   vBox.resize( 600, 400 );
+   vBox.show();
 
-    return a.exec();
-}
+   return a.exec();
+   }
 */

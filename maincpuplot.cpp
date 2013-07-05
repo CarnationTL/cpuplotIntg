@@ -24,16 +24,16 @@ MainCpuplot::MainCpuplot(QWidget *parent) :
     const int margin = 5;
     plot->setContentsMargins( margin, margin, margin, margin );
 
-    QString info( "Press the legend to en/disable a curve" );
+    //QString info( "Press the legend to en/disable a curve" );
 
-    QLabel *label = new QLabel( info, vBox );
+   // QLabel *label = new QLabel( info, vBox );
 
     QVBoxLayout *layout = new QVBoxLayout( vBox );
     layout->addWidget( plot );
-    layout->addWidget( label );
+    //layout->addWidget( label );
 
     vBox->resize( 600, 400 );
-    ui->centralWidget->resize (600, 400);
+    ui->centralWidget->resize (400, 600);
     //vBox->show();
 }
 

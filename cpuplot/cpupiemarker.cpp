@@ -25,6 +25,7 @@ void CpuPieMarker::draw( QPainter *painter,
 
     const int margin = 5;
 
+    //CpuPie 位置
     QRectF pieRect;
     pieRect.setX( rect.x() + margin );
     pieRect.setY( rect.y() + margin );
@@ -38,10 +39,8 @@ void CpuPieMarker::draw( QPainter *painter,
         i < sizeof( dataType ) / sizeof( dataType[0] ); i++ )
     {
         const QwtPlotCurve *curve = cpuPlot->cpuCurve( dataType[i] );
-        if ( curve->dataSize() > 0 )
-        {
+        if ( curve->dataSize() > 0 ) {
             const int value = static_cast<int>( 5760 * curve->sample( 0 ).y() / 100.0 );
-
             painter->save();
             painter->setBrush( QBrush( curve->pen().color(), Qt::SolidPattern ) );
             if ( value != 0 )
